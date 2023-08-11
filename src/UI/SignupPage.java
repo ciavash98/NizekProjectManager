@@ -8,31 +8,129 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 
 public class SignupPage extends JFrame {
+    private final int cornerRadius = 60;
+    class RoundedPanel extends JPanel {
+        private Color startColor;
+        private Color endColor;
+
+        public RoundedPanel(Color startColor, Color endColor) {
+            this.startColor = startColor;
+            this.endColor = endColor;
+            setOpaque(false);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+
+            int arcWidth = 80;
+            int arcHeight = 80;
+
+            int startX = 0;
+            int startY = 0;
+            int endX = getWidth();
+            int endY = getHeight();
+
+            GradientPaint gradientPaint = new GradientPaint(startX, startY, startColor, endX, endY, endColor);
+
+            g2d.setPaint(gradientPaint);
+            g2d.fillRoundRect(0, 0, getWidth(), getHeight(), arcWidth, arcHeight);
+        }
+    }
 
     UserController userController = new UserController();
+    JPanel welcomePanel = new JPanel(){
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+
+            int startX = 0;
+            int startY = 0;
+            int endX = getWidth();
+            int endY = getHeight();
+
+            Color startColor = new Color(189, 219, 218);
+            Color endColor = new Color(140, 165, 186);
+
+            GradientPaint gradientPaint = new GradientPaint(startX, startY, startColor, endX, endY, endColor);
+
+            g2d.setPaint(gradientPaint);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        }
+    };
+
+    RoundedPanel borderPanel = new RoundedPanel(new Color(65, 90, 119),new Color(119, 141, 169)){
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            setOpaque(false);
+            int startX = 0;
+            int startY = 0;
+            int endX = getWidth();
+            int endY = getHeight();
+            int arcWidth = 80;
+            int arcHeight = 80;
+
+            Color startColor = new Color(65, 90, 119);
+            Color endColor = new Color(119, 141, 169);
+            RoundRectangle2D rect = new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), arcWidth, arcHeight);
+
+            GradientPaint gradientPaint = new GradientPaint(startX, startY, startColor, endX, endY, endColor);
+
+            g2d.setPaint(gradientPaint);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        }
+    };
+
+    JPanel signupPanel = new JPanel(){
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D) g;
+            setOpaque(false);
+            int startX = 0;
+            int startY = 0;
+            int endX = getWidth();
+            int endY = getHeight();
+
+            Color startColor = new Color(52, 78, 65);
+            Color endColor = new Color(88, 129, 87);
+
+            GradientPaint gradientPaint = new GradientPaint(startX, startY, startColor, endX, endY, endColor);
+
+            g2d.setPaint(gradientPaint);
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+        }
+    };
 
     public SignupPage() {
-
 
         setTitle("NGI's Project Manager");
         setSize(1100, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel welcomePanel = new JPanel();
         welcomePanel.setLayout(null);
-        welcomePanel.setBackground(Color.WHITE);
-        welcomePanel.setBounds(0, 0, 1100, 200);
-        add(welcomePanel);
+        welcomePanel.setBounds(150, 100, 800, 550);
+        welcomePanel. setBorder(BorderFactory.createEmptyBorder(cornerRadius, cornerRadius, cornerRadius, cornerRadius));
+        welcomePanel.setOpaque(false);
+        borderPanel.add(welcomePanel);
 
-//        JPanel infoPanel = new JPanel();
-//        infoPanel.setLayout(null);
-//        infoPanel.setBackground(new Color(100, 100, 145));
-//        infoPanel.setBounds(0, 300, 1100, 300);
-//        add(infoPanel, BorderLayout.SOUTH);
+        signupPanel.setLayout(null);
+        signupPanel.setBounds((getWidth() / 2) - (330 / 2), 610, 330, 100);
+        signupPanel.setOpaque(false);
+        add(signupPanel);
+
+        borderPanel.setLayout(null);
+        borderPanel.setBounds(0, 0, 1100, 800);
+        add(borderPanel);
 
         JLabel label = new JLabel("Welcome");
         label.setBounds((welcomePanel.getWidth() / 2) - (290 / 2), 50, 290, 100);
@@ -40,67 +138,63 @@ public class SignupPage extends JFrame {
         welcomePanel.add(label);
 
         JLabel fullName = new JLabel("Full Name : ");
-        fullName.setBounds(170, 270, 100, 100);
+        fullName.setBounds(30, 240, 100, 100);
         fullName.setFont(new Font("X Roya", Font.BOLD, 15));
         welcomePanel.add(fullName);
 
         JLabel email = new JLabel("Email(Username) : ");
-        email.setBounds(170, 380, 200, 100);
+        email.setBounds(30, 350, 200, 100);
         email.setFont(new Font("X Roya", Font.BOLD, 15));
         welcomePanel.add(email);
 
         JLabel password = new JLabel("Password : ");
-        password.setBounds(530, 270, 100, 100);
+        password.setBounds(390, 240, 100, 100);
         password.setFont(new Font("X Roya", Font.BOLD, 15));
         welcomePanel.add(password);
 
         JLabel re_EnterPassword = new JLabel("Re-Enter Password : ");
-        re_EnterPassword.setBounds(530, 380, 200, 100);
+        re_EnterPassword.setBounds(390, 350, 200, 100);
         re_EnterPassword.setFont(new Font("X Roya", Font.BOLD, 15));
         welcomePanel.add(re_EnterPassword);
 
-        JLabel ifForgot = new JLabel("If i forgot my password :");
-        ifForgot.setBounds(170, 485, 200, 100);
-        ifForgot.setFont(new Font("X Roya", Font.BOLD, 15));
-        welcomePanel.add(ifForgot);
-
-        JCheckBox sendSms = new JCheckBox("Send password by SMS");
-        sendSms.setBackground(Color.GRAY);
-        sendSms.setBounds(380, 487, 200, 10);
-        welcomePanel.add(sendSms);
-
-        JCheckBox sendEmail = new JCheckBox("Send password by Email");
-        sendEmail.setBackground(new Color(255, 239, 0));
-        sendEmail.setBounds(680, 487, 200, 10);
-        welcomePanel.add(sendEmail);
+//        JLabel ifForgot = new JLabel("If forgot my password :");
+//        ifForgot.setBounds(170, 485, 200, 100);
+//        ifForgot.setFont(new Font("X Roya", Font.BOLD, 15));
+//        welcomePanel.add(ifForgot);
+//
+//        JCheckBox sendSms = new JCheckBox("Send password by SMS");
+//        sendSms.setBackground(Color.GRAY);
+//        sendSms.setBounds(380, 487, 200, 10);
+//        welcomePanel.add(sendSms);
+//
+//        JCheckBox sendEmail = new JCheckBox("Send password by Email");
+//        sendEmail.setBackground(new Color(255, 239, 0));
+//        sendEmail.setBounds(680, 487, 200, 10);
+//        welcomePanel.add(sendEmail);
 
         JTextField name = new JTextField();
         name.setBackground(Color.GRAY);
         name.setFont(new Font("X Traffic", Font.BOLD, 18));
-        name.setBounds(285, 306, 240, 28);
+        name.setBounds(145, 276, 240, 28);
         welcomePanel.add(name);
 
         JTextField enterEmail = new JTextField();
-        enterEmail.setBounds(285,417, 240, 28);
+        enterEmail.setBounds(145,387, 240, 28);
         enterEmail.setBackground(Color.GRAY);
         enterEmail.setFont(new Font("X Traffic", Font.BOLD, 18));
         welcomePanel.add(enterEmail);
 
         JPasswordField pass = new JPasswordField();
-        pass.setBounds(660, 306, 240, 28);
+        pass.setBounds(520, 276, 240, 28);
         pass.setBackground(Color.GRAY);
         pass.setFont(new Font("X Traffic", Font.BOLD, 18));
         welcomePanel.add(pass);
 
         JPasswordField rePass = new JPasswordField();
-        rePass.setBounds(660, 417, 240, 28);
+        rePass.setBounds(520, 387, 240, 28);
         rePass.setBackground(Color.GRAY);
         rePass.setFont(new Font("X Traffic", Font.BOLD, 18));
         welcomePanel.add(rePass);
-
-        JButton loginButton = new JButton("SignUp!");
-        loginButton.setBounds((welcomePanel.getWidth() / 2) - (300 / 2), 620, 300, 80);
-        welcomePanel.add(loginButton);
 
         JLabel validation = new JLabel();
         validation.setBounds((welcomePanel.getWidth() / 2) - (300 / 2), 575, 300, 100);
@@ -109,7 +203,11 @@ public class SignupPage extends JFrame {
         validation.setHorizontalAlignment(SwingConstants.CENTER);
         welcomePanel.add(validation);
 
-        loginButton.addActionListener(new ActionListener() {
+
+        JButton signupButton = new JButton("SignUp!");
+        signupButton.setBounds((signupPanel.getWidth() / 2) - (300 / 2), (signupPanel.getHeight() / 2) - (80 / 2), 300, 80);
+        signupPanel.add(signupButton);
+        signupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String fullName = name.getText();
@@ -120,7 +218,7 @@ public class SignupPage extends JFrame {
 
                 if (userError != null) {
                     switch (userError) {
-                        case NAME_NOT_VALID -> validation.setText("Fullname should be A-Z.");
+                        case NAME_NOT_VALID -> validation.setText("Name should be A-Z.");
                         case EMAIL_NOT_VALID -> validation.setText("Enter a valid Email address.");
                         case PASSWORD_NOT_MATCH -> validation.setText("Passwords dose not match.");
                     }
@@ -135,6 +233,10 @@ public class SignupPage extends JFrame {
             }
         }
         );
+
         setVisible(true);
     }
+
+
 }
+

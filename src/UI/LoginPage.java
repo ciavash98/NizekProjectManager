@@ -12,6 +12,12 @@ import java.io.IOException;
 
 public class LoginPage extends JFrame {
 
+    String loadNizekIcon = "src/icons/nizek.png";
+    ImageIcon nizekIcon = new ImageIcon(loadNizekIcon);
+    Image nizek = nizekIcon.getImage();
+    Image scaleNizek = nizek.getScaledInstance(200, 200,  java.awt.Image.SCALE_SMOOTH);
+    ImageIcon setnizekIcon = new ImageIcon(scaleNizek);
+
     UserController userController = new UserController();
 
     public LoginPage(){
@@ -26,6 +32,12 @@ public class LoginPage extends JFrame {
         loginPanel.setBackground(new Color(255, 255, 255));
         loginPanel.setBounds(0, 0, 1100, 200);
         add(loginPanel);
+
+        JButton nizekButton = new JButton(setnizekIcon);
+        nizekButton.setBounds((loginPanel.getWidth() / 2) - (500 / 2), 100, 500, 180);
+        nizekButton.setFocusPainted(false);
+        nizekButton.setBorderPainted(false);
+        loginPanel.add(nizekButton);
 
         JLabel email = new JLabel("Email: ");
         email.setBounds(340, 380, 200, 100);

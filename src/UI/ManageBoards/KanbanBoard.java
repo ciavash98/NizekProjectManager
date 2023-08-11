@@ -2,7 +2,6 @@ package UI.ManageBoards;
 import Logic.Boards.Board;
 import Logic.Issues.Issue;
 import Logic.Issues.IssueController;
-import Logic.Issues.IssueRepository;
 import Logic.Issues.IssueStatus;
 import Logic.Projects.Project;
 import UI.ManageIssues.AddIssue;
@@ -133,17 +132,17 @@ public class KanbanBoard extends JFrame {
 
             @Override
             public void dragOver(DropTargetDragEvent dtde) {
-                // Define drag over behavior
+
             }
 
             @Override
             public void dropActionChanged(DropTargetDragEvent dtde) {
-                // Define drop action changed behavior
+
             }
 
             @Override
             public void dragExit(DropTargetEvent dte) {
-                // Define drag exit behavior
+
             }
 
             @Override
@@ -160,8 +159,6 @@ public class KanbanBoard extends JFrame {
                             IssueStatus targetStatus = IssueStatus.values()[targetColumn];
                             issue.setIssueStatus(targetStatus);
 
-                            // Adjust your ArrayLists and update the display
-                            // ...
                             issueController.saveIssue(issues);
                             customTableModel.setIssues(issues);
                             table.revalidate();

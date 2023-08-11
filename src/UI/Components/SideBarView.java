@@ -5,16 +5,13 @@ import UI.LoginPage;
 import java.awt.Desktop;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 
 
@@ -22,27 +19,26 @@ public class SideBarView extends JPanel {
 
     String userName;
     String userRole;
-//    Border borderLine = BorderFactory.createLineBorder(Color.black);
+
     String loadManageProjectIcon = "src/icons/projectManager.png";
-//    String loadManageBoardIcon = "src/icons/boardManager.png";
     String loadManageUserIcon = "src/icons/userManager.png";
     String loadReportIcon = "src/icons/reports.png";
     String loadSettingIcon = "src/icons/setting.png";
+    String loadUserIcon = "src/icons/user.png";
+    String loadLogoutIcon = "src/icons/logout.png";
+    String loadHomeIcon = "src/icons/home.png";
+    String loadNIcon = "src/icons/n.png";
+
 
     ImageIcon projectIcon = new ImageIcon(loadManageProjectIcon);
     Image project = projectIcon.getImage();
     Image scaleProject = project.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
     ImageIcon setProjectIcon = new ImageIcon(scaleProject);
 
-//    ImageIcon boardIcon = new ImageIcon(loadManageBoardIcon);
-//    Image board = boardIcon.getImage();
-//    Image scaleBoard = board.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
-//    ImageIcon setBoardIcon = new ImageIcon(scaleBoard);
-
     ImageIcon userIcon = new ImageIcon(loadManageUserIcon);
     Image user = userIcon.getImage();
     Image scaleUser = user.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
-    ImageIcon setUserIcon = new ImageIcon(scaleUser);
+    ImageIcon setUsersIcon = new ImageIcon(scaleUser);
 
     ImageIcon reportIcon = new ImageIcon(loadReportIcon);
     Image report = reportIcon.getImage();
@@ -53,10 +49,6 @@ public class SideBarView extends JPanel {
     Image setting = settingIcon.getImage();
     Image scaleSetting = setting.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
     ImageIcon setSettingIcon = new ImageIcon(scaleSetting);
-
-    String loadLogoutIcon = "src/icons/logout.png";
-    String loadHomeIcon = "src/icons/home.png";
-    String loadNIcon = "src/icons/n.png";
 
     ImageIcon logoutIcon = new ImageIcon(loadLogoutIcon);
     Image logout = logoutIcon.getImage();
@@ -73,9 +65,13 @@ public class SideBarView extends JPanel {
     Image scaleN = n.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
     ImageIcon setNIcon = new ImageIcon(scaleN);
 
+    ImageIcon usIcon = new ImageIcon(loadUserIcon);
+    Image u = usIcon.getImage();
+    Image scaleu = u.getScaledInstance(40, 40,  java.awt.Image.SCALE_SMOOTH);
+    ImageIcon setUserIcon = new ImageIcon(scaleu);
+
     JButton manageProjectsButton = new JButton(setProjectIcon);
-//    JButton manageBoardsButton = new JButton(setBoardIcon);
-    JButton manageUsersButton = new JButton(setUserIcon);
+    JButton manageUsersButton = new JButton(setUsersIcon);
     JButton reportsButton = new JButton(setReportIcon);
     JButton settingButton = new JButton(setSettingIcon);
 
@@ -89,12 +85,12 @@ public class SideBarView extends JPanel {
         setVisible(true);
 
         JLabel roleOfUser = new JLabel(userRole);
-        roleOfUser.setBounds((getWidth() / 2) - (130 / 2), 120, 130, 20);
+        roleOfUser.setBounds((getWidth() / 2) - (130 / 2), 100, 130, 20);
         roleOfUser.setFont(new Font("Poppins", Font.BOLD, 18));
         add(roleOfUser);
 
         JLabel nameOfUser = new JLabel(userName);
-        nameOfUser.setBounds((getWidth() / 2) - (100 / 2) + 15, 150, 100, 20);
+        nameOfUser.setBounds((getWidth() / 2) - (100 / 2) + 15, 130, 100, 20);
         nameOfUser.setFont(new Font("Poppins", Font.BOLD, 15));
         add(nameOfUser);
 
@@ -123,30 +119,6 @@ public class SideBarView extends JPanel {
                 projectsHint.setVisible(false);
             }
         });
-
-//        manageBoardsButton.setLayout(null);
-//        manageBoardsButton.setBounds((getWidth() / 2) - (200 / 2), 250, 200, 80);
-//        manageBoardsButton.setHorizontalAlignment(SwingConstants.LEFT);
-//        manageBoardsButton.setFocusPainted(false);
-//        manageBoardsButton.setBorderPainted(false);
-//        manageBoardsButton.setToolTipText("Show/Edit boards");
-//        JLabel boardsHint = new JLabel("Manage Boards");
-//        boardsHint.setBounds((getWidth() / 2) - (200 / 2) + 90, 290, 105, 17);
-//        boardsHint.setHorizontalAlignment(SwingConstants.CENTER);
-//        boardsHint.setVisible(false);
-//        add(boardsHint);
-//        add(manageBoardsButton);
-//        manageBoardsButton.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseEntered(MouseEvent e) {
-//                boardsHint.setVisible(true);
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e) {
-//                boardsHint.setVisible(false);
-//            }
-//        });
 
         manageUsersButton.setLayout(null);
         manageUsersButton.setBounds((getWidth() / 2) - (200 / 2), 300, 200, 80);
@@ -238,7 +210,7 @@ public class SideBarView extends JPanel {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                LoginPage loginPage = new LoginPage(); //is this right?
+                LoginPage loginPage = new LoginPage();
                 setVisible(false);
                 userController.user = null;
                 repaint();
@@ -272,7 +244,7 @@ public class SideBarView extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    HomePage homePage = new HomePage(userController);  //is this right?
+                    HomePage homePage = new HomePage(userController);
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -318,13 +290,26 @@ public class SideBarView extends JPanel {
             }
         });
         add(nButton);
+
+        JButton userButton = new JButton(setUserIcon);
+        userButton.setLayout(null);
+        userButton.setBounds((getWidth() / 2) - (40 / 2), 35, 40, 50);
+        userButton.setFocusPainted(false);
+        userButton.setBorderPainted(false);
+        userButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        add(userButton);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Graphics2D g2d = (Graphics2D) g.create(); // Create a Graphics2D object
+        Graphics2D g2d = (Graphics2D) g.create();
 
         Color startColor = new Color(140, 165, 186);
         Color endColor = new Color(189, 219, 218);
@@ -351,25 +336,20 @@ public class SideBarView extends JPanel {
 
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Set the gradient paint for the Graphics2D object
         g2d.setPaint(gradient);
         g2d.fill(roundedRectangle);
 
         float strokeWidth = 4.0f;
         g2d.setStroke(new BasicStroke(strokeWidth));
-        g2d.setColor(Color.BLACK); // Set border color
+        g2d.setColor(Color.BLACK);
         g2d.draw(roundedRectangle);
 
-        g2d.dispose(); // Dispose the Graphics2D object to release resources
+        g2d.dispose();
     }
 
     public void addManageProjectButtonAction(ActionListener e) {
         manageProjectsButton.addActionListener(e);
     }
-
-//    public void addManageBoardsButtonAction(ActionListener e) {
-//        manageBoardsButton.addActionListener(e);
-//    }
 
     public void addManageUserButtonAction(ActionListener e) {
         manageUsersButton.addActionListener(e);

@@ -1,21 +1,21 @@
 package UI.ManageUser;
 import Logic.Users.*;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Path2D;
 import java.util.HashMap;
 
 public class ManageUsers extends JPanel implements TableModel {
     ChangePassAndRemove changePassAndRemove;
     HashMap<Object, User> users;
-    Border borderLine = BorderFactory.createLineBorder(Color.black);
     JTable usersTable = new JTable();
     JComboBox filterComboBox = new JComboBox();
     UserController userController;
+    private final int cornerRadius = 60;
 
     public class ButtonRenderer extends JButton implements TableCellRenderer{
 
@@ -57,25 +57,22 @@ public class ManageUsers extends JPanel implements TableModel {
     public ManageUsers(UserController userController) {
         this.userController = userController;
         users = userController.getAllUsers(UserInitKeyBy.ID);
-        setBackground(Color.WHITE);
-        setBounds(250, 50, 850, 750);
-        setBorder(borderLine);
-        setBorder(BorderFactory.createStrokeBorder(new BasicStroke(3)));
+        setBounds(250, 80, 818, 660);
         setLayout(null);
         setVisible(true);
 
         usersTable.setModel(this);
-        usersTable.setBounds(20, 70, 810, 560);
         usersTable.setLayout(null);
         usersTable.setVisible(true);
         usersTable.setFocusable(false);
         usersTable.setGridColor(Color.gray);
         usersTable.getTableHeader().setBackground(new Color(200, 200, 200));
         usersTable.setRowHeight(30);
+
         JScrollPane jScrollPane = new JScrollPane();
         jScrollPane.setFont(jScrollPane.getFont().deriveFont(Font.BOLD));
         jScrollPane.getViewport().add(usersTable, null);
-        jScrollPane.setBounds(20, 70, 810, 560);
+        jScrollPane.setBounds(20, 70, 780, 520);
         add(jScrollPane);
 
         DefaultTableCellRenderer cellRenderer1 = new DefaultTableCellRenderer() {
@@ -85,7 +82,7 @@ public class ManageUsers extends JPanel implements TableModel {
                 Component component = super.getTableCellRendererComponent(table, value,
                         false, hasFocus,
                         row, column);
-                component.setBackground(Color.WHITE); // Set your desired background color
+                component.setBackground(Color.WHITE);
                 return component;
             }
         };
@@ -125,7 +122,7 @@ public class ManageUsers extends JPanel implements TableModel {
         });
 
         JButton addNewUser = new JButton("+ Add New User");
-        addNewUser.setBounds((getWidth() / 2) - (820 / 2), 650, 820, 45);
+        addNewUser.setBounds((getWidth() / 2) - (760 / 2) - 10, 600, 760, 45);
         addNewUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -136,6 +133,30 @@ public class ManageUsers extends JPanel implements TableModel {
         TableColumn editColumn = usersTable.getColumnModel().getColumn(4);
         editColumn.setCellEditor(new ButtonEditor());
         editColumn.setCellRenderer(new ButtonRenderer("Change Pass/Remove"));
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g.create();
+
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        int width = getWidth();
+        int height = getHeight();
+
+        GradientPaint gradientPaint = new GradientPaint(0, 0, new Color(224, 225, 221), 0, height, new Color(205, 213, 224));
+        g2d.setPaint(gradientPaint);
+
+        Path2D path = new Path2D.Double();
+        path.moveTo(0, 0);
+        path.lineTo(width, 0);
+        path.lineTo(width, height - cornerRadius);
+        path.quadTo(width, height, width - cornerRadius , height);
+        path.lineTo(0, height);
+        path.closePath();
+        g2d.fill(path);
+
+        g2d.dispose();
     }
 
     @Override

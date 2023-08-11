@@ -9,12 +9,9 @@ public class MainView extends JPanel {
 
     public MainView() {
 
-//    Border borderLine = BorderFactory.createLineBorder(Color.black);
-//        setBorder(borderLine);
-//        setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5)));
+//
         setBounds(250,80,819,660);
         setLayout(null);
-//        setBackground(new Color(214, 204, 194));
         setVisible(true);
     }
     @Override

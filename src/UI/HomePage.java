@@ -7,25 +7,17 @@ import UI.ManageUser.ManageUsers;
 import UI.Reports.Reports;
 import UI.Setting.Setting;
 import Logic.Users.UserController;
-import Utils.PanelsGradient;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 
 public class HomePage extends JFrame {
 
     UserController userController;
-
     JPanel currentShowingPanel;
-
-
-
     JPanel mainPanel = new JPanel();
 
     public HomePage(UserController userController) throws IOException {
@@ -55,6 +47,7 @@ public class HomePage extends JFrame {
                 ManageProjects manageProjects = new ManageProjects();
                 if (currentShowingPanel != null) {
                     currentShowingPanel.setVisible(false);
+                    new ToolBarView("Manage Projects");
                 }
                 currentShowingPanel = manageProjects;
 
@@ -63,26 +56,13 @@ public class HomePage extends JFrame {
             }
         });
 
-//        sideBar.addManageBoardsButtonAction(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                ManageBoards manageBoards = new ManageBoards();
-//                if (currentShowingPanel != null) {
-//                    currentShowingPanel.setVisible(false);
-//                }
-//                currentShowingPanel = manageBoards;
-//
-//                add(manageBoards);
-//                mainView.setVisible(false);
-//            }
-//        });
-
         sideBar.addManageUserButtonAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ManageUsers manageUsers = new ManageUsers(userController);
                 if (currentShowingPanel != null) {
                     currentShowingPanel.setVisible(false);
+                    new ToolBarView("Manage Users");
                 }
                 currentShowingPanel = manageUsers;
 
@@ -97,6 +77,7 @@ public class HomePage extends JFrame {
                 Reports reports = new Reports();
                 if (currentShowingPanel != null) {
                     currentShowingPanel.setVisible(false);
+                    new ToolBarView("Reports");
                 }
                 currentShowingPanel = reports;
 
@@ -111,6 +92,7 @@ public class HomePage extends JFrame {
                 Setting setting = new Setting();
                 if (currentShowingPanel != null) {
                     currentShowingPanel.setVisible(false);
+                    new ToolBarView("Setting");
                 }
                 currentShowingPanel = setting;
 
@@ -119,7 +101,7 @@ public class HomePage extends JFrame {
             }
         });
 
-        ToolBarView toolBar = new ToolBarView();
+        ToolBarView toolBar = new ToolBarView("Home");
         add(toolBar);
     }
 }

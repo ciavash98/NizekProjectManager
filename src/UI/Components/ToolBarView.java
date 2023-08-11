@@ -1,5 +1,6 @@
 package UI.Components;
 
+import UI.HomePage;
 import Utils.PanelsGradient;
 
 import javax.swing.*;
@@ -8,13 +9,20 @@ import java.awt.geom.Path2D;
 import java.awt.geom.RoundRectangle2D;
 
 public class ToolBarView extends JPanel {
-
+    HomePage homePage;
     private final int cornerRadius = 60;
 
-    public ToolBarView() {
+    public ToolBarView(String panelName) {
+
         setBounds(250, 30, 819, 50);
         setOpaque(false);
+        setLayout(null);
         setVisible(true);
+
+        JLabel currentPanel = new JLabel(panelName);
+        currentPanel.setBounds((getWidth()/2) - (100 / 2), 20,100, 20);
+        currentPanel.setFont(new Font("Poppins", Font.BOLD, 20));
+        add(currentPanel);
     }
 
     @Override
@@ -42,4 +50,5 @@ public class ToolBarView extends JPanel {
 
         g2d.dispose();
     }
+
 }

@@ -19,7 +19,7 @@ public class ChangePassAndRemove extends JFrame {
         this.userController = userController;
         this.selectedUser = selectedUser;
         user = userController.getAllUsers(UserInitKeyBy.ID).get(selectedUser);
-        System.out.println(user.getName());
+
 
         setTitle(user.getName());
         setSize(600, 600);

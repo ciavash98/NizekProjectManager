@@ -88,7 +88,6 @@ public class AddIssue extends JFrame {
                 String description = descriptionArea.getText();
                 IssuePriority priority = (IssuePriority) priorityComboBox.getSelectedItem();
                 User user = (User) devComboBox.getSelectedItem();
-                System.out.println("asd" + user);
                 IssueType type = (IssueType) typeComboBox.getSelectedItem();
                 issueController.addIssue(title,type, description, priority,project, user);
                 setVisible(false);

@@ -98,7 +98,6 @@ public class Issue {
 
 
     public User getAssignedUser() {
-        System.out.println(assignedUser);
         return assignedUser;
     }
 

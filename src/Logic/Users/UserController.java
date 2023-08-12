@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class UserController {
 
     public static User user;
+    public  static UserController userController;
 
     public UserError login(String email, String pass) {
         HashMap<Object, User> users = UserRepository.readUsers(UserInitKeyBy.EMAIL);
@@ -18,16 +19,30 @@ public class UserController {
         }
     }
 
+    private boolean registeredUserCheck(String email){
+
+        HashMap<Object ,User> users = getAllUsers(UserInitKeyBy.ID);
+
+        for (User user: users.values()) {
+            if(user.getEmail().equals(email)) return false;
+        }
+        return true;
+    }
+
+
     public UserError signUp(String name, String email, String pass, String re_enterPass, Roles role){
+
         if (name.matches("^[a-zA-Z]+$")) {
             if (email.matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
-                if (pass.equals(re_enterPass)) {
-                    HashMap<Object, User> users = UserRepository.readUsers(UserInitKeyBy.EMAIL);
-                    int id = users.size();
-                    User user = new User(id, name, email, pass, role);
-                    UserRepository.addUser(user);
-                    this.user = user;
-                } else return UserError.PASSWORD_NOT_MATCH;
+                if(registeredUserCheck(email)){
+                    if (pass.equals(re_enterPass)) {
+                        HashMap<Object, User> users = UserRepository.readUsers(UserInitKeyBy.EMAIL);
+                        int id = users.size();
+                        User user = new User(id, name, email, pass, role);
+                        UserRepository.addUser(user);
+                        this.user = user;
+                    } else return UserError.PASSWORD_NOT_MATCH;
+                } else return UserError.EMAIL_DOSE_ALREADY_REGISTERED;
             }else return UserError.EMAIL_NOT_VALID;
         } else return UserError.NAME_NOT_VALID;
         return null;

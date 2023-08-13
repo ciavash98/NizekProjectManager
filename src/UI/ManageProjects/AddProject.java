@@ -43,33 +43,6 @@ public class AddProject extends JFrame {
         projectNameLabel.setFont(new Font("Poppins", Font.BOLD, 16));
         addProjectPanel.add(projectNameField);
 
-//
-//        JLabel selectPOLabel = new JLabel("Select Product Owner:");
-//        selectPOLabel.setBounds(40, 170, 170, 20);
-//        selectPOLabel.setFont(new Font("Poppins", Font.BOLD, 15));
-//        addProjectPanel.add(selectPOLabel);
-//
-//        JList<User> selectPOBox = new JList(userController.filter(Roles.PRODUCT_OWNER).values().toArray());
-//        JScrollPane listScrollerPO = new JScrollPane(selectPOBox);
-//        listScrollerPO.setBounds(40, 200, 720, 100);
-//        listScrollerPO.setBackground(new Color(255, 255, 255));
-//        listScrollerPO.setFont(new Font("Poppins", Font.BOLD, 15));
-//        addProjectPanel.add(listScrollerPO);
-//        selectPOBox.setSelectionMode(MULTIPLE_INTERVAL_SELECTION);
-//
-//        JLabel selectQALabel = new JLabel("Select Quality Assurance:");
-//        selectQALabel.setBounds(40, 330, 220, 20);
-//        selectQALabel.setFont(new Font("Poppins", Font.BOLD, 15));
-//        addProjectPanel.add(selectQALabel);
-//
-//        JList<User> selectQABox = new JList(userController.filter(Roles.QUALITY_ASSURANCE).values().toArray());
-//        JScrollPane listScrollerQA = new JScrollPane(selectQABox);
-//        listScrollerQA.setBounds(40, 360, 720, 100);
-//        listScrollerQA.setFont(new Font("Poppins", Font.BOLD, 15));
-//        addProjectPanel.add(listScrollerQA);
-//        selectQABox.setSelectionMode(MULTIPLE_INTERVAL_SELECTION);
-//
-
         JLabel dateNote = new JLabel("When you click on the '+ Create Project'");
         JLabel dateNote2 = new JLabel("your locate date will be assign to project.");
 

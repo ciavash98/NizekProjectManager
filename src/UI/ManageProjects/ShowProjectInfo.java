@@ -19,6 +19,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 public class ShowProjectInfo extends JFrame implements TableModel {
 
@@ -84,7 +85,7 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         infoPanel.setLayout(null);
         add(infoPanel);
 
-        JScrollPane boardsScrollPane = new JScrollPane(boardsPanel); //Add scroll if boards count is over than 8.
+        JScrollPane boardsScrollPane = new JScrollPane(boardsPanel);
         boardsScrollPane.setBounds(0, 0, 800, 420);
         boardsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         boardsScrollPane.getVerticalScrollBar().setUnitIncrement(7);
@@ -111,7 +112,7 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         addNewBoard.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddBoard();
+                new AddBoard(project);
             }
         });
 
@@ -128,6 +129,20 @@ public class ShowProjectInfo extends JFrame implements TableModel {
             }
         });
 
+        drawBoards();
+
+        HashMap<Object, User> allUsers = userController.getAllUsers(UserInitKeyBy.ID);
+        for (User user : allUsers.values()) {
+            if (user.getRole() == Roles.PRODUCT_OWNER || user.getRole() == Roles.QUALITY_ASSURANCE || user.getRole() == Roles.DEVELOPER) {
+                if (project.getQasList().contains(user.getId()) || project.getPosList().contains(user.getId())) {
+                    users.add(user);
+                }
+            }
+        }
+        userTable.setModel(this);
+    }
+
+    private void drawBoards() {
         ArrayList<Board> boards = new ArrayList<>();
         for (int boardId : project.getBoardList()) {
             boards.add(boardController.getBoardById(boardId));
@@ -153,38 +168,6 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         int preferredHeight = (int) (Math.ceil(boards.size() / 4.0) * (buttonSize + margin) + margin);
         boardsPanel.setPreferredSize(new Dimension(800, preferredHeight));
 
-
-        ArrayList<Integer> pos = new ArrayList<>();
-
-        for (int posId : project.getPosList()) {
-            pos.add(posId);
-        }
-        for (Map.Entry<Object, User> entry : userController.getAllUsers(UserInitKeyBy.ID).entrySet()) {
-            Object key = entry.getKey();
-            User value = entry.getValue();
-            for (int u: pos) {
-                if (u == value.getId()){
-                    users.add(value);
-                }
-            }
-        }
-        userTable.setModel(this);
-
-        ArrayList<Integer> qas = new ArrayList<>();
-
-        for (int qasId : project.getQasList()) {
-            qas.add(qasId);
-        }
-        for (Map.Entry<Object, User> entry1 : userController.getAllUsers(UserInitKeyBy.ID).entrySet()) {
-            Object key1 = entry1.getKey();
-            User value1 = entry1.getValue();
-            for (int u: qas) {
-                if (u == value1.getId()){
-                    users.add(value1);
-                }
-            }
-        }
-        userTable.setModel(this);
     }
 
 
@@ -273,11 +256,13 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                User selectedUser1 = userList.getSelectedValue();
-
-                projectController.assign(project.getId(), selectedUser1.getId(), selectedUser1.getRole());
+                List<User> selectedUser = userList.getSelectedValuesList();
+                for (User user: selectedUser) {
+                    projectController.assign(project.getId(), user.getId(), user.getRole());
+                    users.add(user);
+                }
                 popup1.dispose();
+                userTable.revalidate();
             }
         });
         popupPanel1.add(selectButton, BorderLayout.SOUTH);
@@ -289,11 +274,9 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         popup1.setVisible(true);
     }
 
-
-
     @Override
     public int getRowCount() {
-        return project.getPosList().size() + project.getQasList().size();
+        return users.size();
     }
 
     @Override
@@ -326,20 +309,15 @@ public class ShowProjectInfo extends JFrame implements TableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        if (rowIndex >= 0 && rowIndex < users.size()) {
-            User user = users.get(rowIndex);
-            switch (columnIndex) {
-                case 0:
-                    return user.getId();
-                case 1:
-                    return user.getName();
-                case 2:
-                    return user.getRole();
-                default:
-                    return "";
-            }
-        } else {
-            return "";
+        switch (columnIndex) {
+            case 0:
+                return users.get(rowIndex).getId();
+            case 1:
+                return users.get(rowIndex).getName();
+            case 2:
+                return users.get(rowIndex).getRole();
+            default:
+                return "";
         }
     }
 

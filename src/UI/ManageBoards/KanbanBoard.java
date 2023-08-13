@@ -1,5 +1,6 @@
 package UI.ManageBoards;
 import Logic.Boards.Board;
+import Logic.Boards.BoardController;
 import Logic.Issues.Issue;
 import Logic.Issues.IssueController;
 import Logic.Issues.IssueStatus;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 
 public class KanbanBoard extends JFrame {
 
+    BoardController boardController = new BoardController();
     IssueController issueController = new IssueController();
     ArrayList<Issue> issues;
     IssueTableModel customTableModel;
@@ -95,14 +97,25 @@ public class KanbanBoard extends JFrame {
             }
         });
 
-        JButton existIssue = new JButton("+ Add an exist Issue");
+        JButton existIssue = new JButton("Delete this board");
         existIssue.setBounds(110, 710, 250, 50);
         existIssue.setVisible(true);
         add(existIssue);
         existIssue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddIssue(project, board);
+                int resp = JOptionPane.showConfirmDialog(new JFrame(), "Are you sure to delete " + board.getName() + "?",
+                        "Delete?", JOptionPane.YES_NO_OPTION);
+
+                if (resp == JOptionPane.YES_OPTION) {
+
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    boardController.removeSingleBoard(board.getId());
+                    setVisible(false);
+                } else {
+                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                }
+
             }
         });
 

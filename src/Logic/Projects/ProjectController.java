@@ -1,13 +1,13 @@
 package Logic.Projects;
+import Logic.Boards.Board;
 import Logic.Boards.BoardController;
 import Logic.Users.Roles;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class ProjectController {
-    BoardController boardController = new BoardController();
 
-    public static ArrayList<Project> getAllProjects(){
+    public ArrayList<Project> getAllProjects(){
         return ProjectRepository.readProjects();
     }
 
@@ -47,20 +47,20 @@ public class ProjectController {
 
     }
 
-    public void addBoardToProject(int projectId,int boardId) {
-
+    public void addBoardToProject(int projectId,String boardName) {
+        BoardController boardController = new BoardController();
         ArrayList<Project> projects = readProjects();
         for (Project p : projects) {
             if(p.getId() == projectId){
-                p.boardList.add(boardId);
-                projects.add(p);
+              int boardId = boardController.addBoard(boardName);
+              p.getBoardList().add(boardId);
             }
         }
         saveProjects(projects);
     }
 
     public void addProject(int id, String name) {
-
+        BoardController boardController = new BoardController();
         int boardID = boardController.addBoard("Default");
         ArrayList<Integer> boards = new ArrayList<>();
         boards.add(boardID);
@@ -84,6 +84,7 @@ public class ProjectController {
     }
 
     public void removeProject(int id) {
+        BoardController boardController = new BoardController();
         ArrayList<Project> projectList = getAllProjects();
         Iterator<Project> projectIterator = projectList.iterator();
 
@@ -91,7 +92,7 @@ public class ProjectController {
             Project p = projectIterator.next();
             if (p.getId() == id) {
                 for (int boardID : p.boardList) {
-                    boardController.removeBoard(boardID);
+                    boardController.removeBoardFromProject(boardID);
                 }
                 projectIterator.remove();
                 break;
@@ -109,7 +110,7 @@ public class ProjectController {
         return projects;
     }
 
-    public static Project findById(int id){
+    public Project findById(int id){
         ArrayList<Project> projects = getAllProjects();
         for (Project project : projects) {
             if (project.getId() == (id)){

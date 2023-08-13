@@ -1,5 +1,8 @@
 package UI.ManageBoards;
 import Logic.Boards.BoardController;
+import Logic.Projects.Project;
+import Logic.Projects.ProjectController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,8 +16,10 @@ public class AddBoard extends JFrame {
     JLabel boardNameLabel = new JLabel("Board name: ");
     JTextField boardNameField = new JTextField();
     JButton createButton = new JButton("+ Create Board");
-
-    public AddBoard() {
+    Project project;
+    ProjectController projectController = new ProjectController();
+    public AddBoard(Project project) {
+        this.project = project;
 
         setLayout(null);
         setTitle("Add New Board");
@@ -43,7 +48,7 @@ public class AddBoard extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = boardNameField.getText();
-                boardController.addBoard(name);
+                projectController.addBoardToProject(project.getId(), name);
                 boardNameField.setText("");
                 setVisible(false);
             }

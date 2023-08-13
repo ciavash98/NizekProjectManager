@@ -17,7 +17,12 @@ public class ProjectRepository {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
-        projectList.add(project.getId() + "," + project.getName() + "," + dateFormatter.format(project.date) + "," + listToString(project.getBoardList()) + "," + listToString(project.getPosList()) + "," + listToString(project.getQasList()));
+        projectList.add(project.getId()
+                + "," + project.getName()
+                + "," + dateFormatter.format(project.date)
+                + "," + listToString(project.getBoardList())
+                + "," + listToString(project.getPosList())
+                + "," + listToString(project.getQasList()));
 
         StringBuilder content = new StringBuilder();
 

@@ -2,7 +2,9 @@ package Logic.Issues;
 import Logic.Projects.Project;
 import Logic.Users.User;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class IssueController {
 
@@ -71,13 +73,10 @@ public class IssueController {
             }
         }
     }
-    public void updateIssueStatus(int issueId, IssueStatus newStatus) {
-        ArrayList<Issue> issues = getAllIssues();
-        for (Issue issue : issues) {
-            if (issue.getId() == issueId) {
-                issue.setIssueStatus(newStatus);
-                break;
-            }
-        }
+
+    public void saveDoneIssues(){
+
+
+
     }
 }

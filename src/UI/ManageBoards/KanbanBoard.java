@@ -21,7 +21,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class KanbanBoard extends JFrame {
@@ -172,6 +175,10 @@ public class KanbanBoard extends JFrame {
                             IssueStatus targetStatus = IssueStatus.values()[targetColumn];
                             issue.setIssueStatus(targetStatus);
 
+                            if (targetStatus == IssueStatus.DONE) {
+                                issue.setDate(new Date());
+                            }
+
                             issueController.saveIssue(issues);
                             customTableModel.setIssues(issues);
                             table.revalidate();
@@ -261,7 +268,15 @@ public class KanbanBoard extends JFrame {
             if (rowIndex >= column.size()) {
                 return null;
             }
-            return column.get(rowIndex);
+
+            Issue issue = column.get(rowIndex);
+
+            if (issue.getIssueStatus() == IssueStatus.DONE) {
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+                return issue.getTitle() + "\nCompleted on:\n" + dateFormatter.format(issue.getDate());
+            }
+
+            return issue;
         }
 
         @Override
@@ -278,5 +293,12 @@ public class KanbanBoard extends JFrame {
 
         }
 
+    }
+    private String formatDate(Date date) {
+        if (date != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return dateFormat.format(date);
+        }
+        return "N/A";
     }
 }

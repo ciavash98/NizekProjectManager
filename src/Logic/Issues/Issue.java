@@ -2,7 +2,10 @@ package Logic.Issues;
 import Logic.Boards.Board;
 import Logic.Projects.Project;
 import Logic.Users.User;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Issue {
@@ -20,8 +23,11 @@ public class Issue {
     ArrayList<String> qa;
     ArrayList<String> done;
     User assignedUser;
+    Date date;
 
-    public Issue(int id, String title, IssueStatus status,IssueType type, String description, IssuePriority issuePriority, User assignedUser, Project project) {
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+    public Issue(int id, String title, IssueStatus status, IssueType type, String description, IssuePriority issuePriority, User assignedUser, Project project) {
         this.id = id;
         this.title = title;
         this.issueStatus = status;
@@ -30,6 +36,15 @@ public class Issue {
         this.issuePriority = issuePriority;
         this.project = project;
         this.assignedUser = assignedUser;
+        this.date = new Date();
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public IssueStatus getIssueStatus() {

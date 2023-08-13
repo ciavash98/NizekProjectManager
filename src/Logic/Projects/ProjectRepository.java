@@ -62,7 +62,7 @@ public class ProjectRepository {
         return projects;
     }
 
-    private static Date parseDate(String dateString) {
+    public static Date parseDate(String dateString) {
         try {
             SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
             return dateFormatter.parse(dateString);

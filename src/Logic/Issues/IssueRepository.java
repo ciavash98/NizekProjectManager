@@ -9,13 +9,19 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
+
+import static Logic.Projects.ProjectRepository.parseDate;
 
 public class IssueRepository {
 
     public static void addIssue(Issue issue) {
         ArrayList<String > issueList = readIssuesFile("Issues.csv");
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
         issueList.add(issue.getId()
                 + "," + issue.getTitle()
@@ -25,6 +31,7 @@ public class IssueRepository {
                 + "," + issue.getIssuePriority()
                 + "," + issue.getAssignedUser().getId()
                 + "," + issue.getProject().getId()
+                + "," + dateFormatter.format(issue.getDate())
         );
 
         StringBuilder content = new StringBuilder();
@@ -73,6 +80,7 @@ public class IssueRepository {
         ProjectController projectController = new ProjectController();
         for (String data : issuesString) {
             String[] dataStringItem = data.split(",");
+
             Issue issue = new Issue(Integer.parseInt(dataStringItem[0]),
                     dataStringItem[1],
                     IssueStatus.findByName(dataStringItem[2]),
@@ -81,13 +89,32 @@ public class IssueRepository {
                     IssuePriority.findByName(dataStringItem[5]),
                     userController.getAllUsers(UserInitKeyBy.ID).get(Integer.parseInt(dataStringItem[6])),
                     projectController.findById(Integer.parseInt(dataStringItem[7])));
+            issue.setDate(parseDate(dataStringItem[8]));
             issues.add(issue);
         }
         return issues;
     }
 
+    public static Date parseDate(String dateString) {
+        try {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            return dateFormatter.parse(dateString);
+        } catch (ParseException e) {
+            throw new RuntimeException("Failed to parse date: " + dateString);
+        }
+    }
+
+    public static Date completionDate(Issue issue){
+
+        if(issue.getIssueStatus().equals(IssueStatus.DONE))
+            return issue.getDate();
+                else return null;
+    }
+
     public static void saveIssue(ArrayList<Issue> issues){
         StringBuilder content = new StringBuilder();
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
         for (Issue issue : issues) {
 
@@ -98,7 +125,8 @@ public class IssueRepository {
                     .append(",").append(issue.getDescription())
                     .append(",").append(issue.getIssuePriority())
                     .append(",").append(issue.getAssignedUser().getId())
-                    .append(",").append(issue.getProject().getId());
+                    .append(",").append(issue.getProject().getId())
+                    .append(",").append(dateFormatter.format(issue.getDate()));
 
             content.append("\n");
         }

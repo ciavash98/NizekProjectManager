@@ -2,6 +2,7 @@ package Logic.Projects;
 import Logic.Boards.BoardController;
 import Logic.Users.Roles;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ProjectController {
     BoardController boardController = new BoardController();
@@ -40,11 +41,10 @@ public class ProjectController {
                         }
                         break;
                 }
-
-                break;
             }
+            ProjectRepository.saveProject(projects);
         }
-        ProjectRepository.saveProject(projects); // Save project list
+
     }
 
     public void addBoardToProject(int projectId,int boardId) {
@@ -71,9 +71,13 @@ public class ProjectController {
 
     public void editProjectName(int id, String name) {
         ArrayList<Project> projects = ProjectRepository.readProjects();
-        for (Project p : projects) {
+
+        for (int i = 0; i < projects.size(); i++) {
+            Project p = projects.get(i);
+
             if(p.getId() == id){
-                p.getName().replace(p.getName(), name);
+                 Project editedProject = new Project(id, name, p.getBoardList());
+            projects.set(i, editedProject);
             }
         }
         ProjectRepository.saveProject(projects);
@@ -81,13 +85,16 @@ public class ProjectController {
 
     public void removeProject(int id) {
         ArrayList<Project> projectList = getAllProjects();
+        Iterator<Project> projectIterator = projectList.iterator();
 
-        for (Project p: projectList) {
-            if(p.getId() == id){
-                for (int boardID: p.boardList) {
+        while (projectIterator.hasNext()) {
+            Project p = projectIterator.next();
+            if (p.getId() == id) {
+                for (int boardID : p.boardList) {
                     boardController.removeBoard(boardID);
                 }
-                projectList.remove(id);
+                projectIterator.remove();
+                break;
             }
         }
         ProjectRepository.saveProject(projectList);

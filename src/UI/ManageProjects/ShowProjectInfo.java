@@ -57,11 +57,9 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         jScrollPane.setBounds(30,30,740,260);
         infoPanel.add(jScrollPane);
 
-        // Set alignment for header.
         DefaultTableCellRenderer headerRenderer = (DefaultTableCellRenderer) userTable.getTableHeader().getDefaultRenderer();
         headerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 
-        // Set alignment for the first column.
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         userTable.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
@@ -92,20 +90,19 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         boardsScrollPane.getVerticalScrollBar().setUnitIncrement(7);
         add(boardsScrollPane);
 
-        //Assign board to current project.
-        JButton addBoard = new JButton("+ Add Board");
-        addBoard.setBounds(620, 5, 150, 30);
-        addBoard.setFocusPainted(true);
-        addBoard.setBorderPainted(false);
-        buttonsPanel.add(addBoard);
-        addBoard.addActionListener(new ActionListener() {
+        JButton editProject = new JButton("Edit Project");
+        editProject.setBounds(620, 5, 150, 30);
+        editProject.setFocusPainted(true);
+        editProject.setBorderPainted(false);
+        buttonsPanel.add(editProject);
+        editProject.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showAddBoardPopup();
             }
         });
 
-        // Add new board to current project.
+
         JButton addNewBoard = new JButton("+ Add New Board");
         addNewBoard.setBounds(440, 5, 180, 30);
         addNewBoard.setFocusPainted(true);
@@ -118,7 +115,7 @@ public class ShowProjectInfo extends JFrame implements TableModel {
             }
         });
 
-        //Assign user to current project.
+
         JButton addUser = new JButton("+ Assign User");
         addUser.setBounds(300, 5, 150, 30);
         addUser.setFocusPainted(true);
@@ -192,56 +189,50 @@ public class ShowProjectInfo extends JFrame implements TableModel {
 
 
     private void showAddBoardPopup() {
-        JDialog popup = new JDialog(this, "Add Board", true);
-        JPanel popupPanel = new JPanel(new BorderLayout());
+        JDialog popup = new JDialog(this, "Edit " + project.getName(), true);
+        JPanel popupPanel = new JPanel();
+        popupPanel.setLayout(null);
 
+        JLabel editName = new JLabel("Edit name");
+        editName.setBounds(50, 60, 100, 30);
+        editName.setFont(new Font("Poppins", Font.BOLD, 15));
+        popupPanel.add(editName);
 
-        // Get the list of boards and populate it into a DefaultListModel
-        ArrayList<Board> boards = boardController.getAllBoards();
-        DefaultListModel<Board> boardListModel = new DefaultListModel<>();
-        for (Board board : boards) {
-            boardListModel.addElement(board);
-        }
+        JTextField nameField = new JTextField(project.getName());
+        nameField.setBounds(45, 90, 200, 40);
+        nameField.setFont(new Font("Poppins", Font.BOLD, 17));
+        popupPanel.add(nameField);
 
-        ListCellRenderer<? super Board> renderer = new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index,
-                                                          boolean isSelected, boolean cellHasFocus) {
-                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                // Set the preferred height of each cell (row) in the JList
-                c.setPreferredSize(new Dimension(c.getPreferredSize().width, 25)); // Adjust the height as needed
-                return c;
-            }
-        };
+        JButton selectButton = new JButton("Done");
+        selectButton.setBounds(45, 130, 200, 80);
+        selectButton.setFont(new Font("Poppins", Font.BOLD, 17));
+//        popupPanel.add(selectButton);
 
-        JList<Board> boardList = new JList<>(boardListModel);
-        boardList.setCellRenderer(renderer);
-
-        // Add the board list to the popup panel
-        popupPanel.add(new JScrollPane(boardList), BorderLayout.CENTER);
-
-        // Add a button to handle the selection (if needed)
-        JButton selectButton = new JButton("Select");
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Board selectedBoard = boardList.getSelectedValue();
-                if (selectedBoard != null) {
-                    ArrayList<Board> addBoards = new ArrayList<>();
-                    ArrayList<Project> proj = new ArrayList<>();
-                    addBoards.add(selectedBoard);
-                    project.getBoardList().add(selectedBoard.getId());
-                    proj.add(project);
-                    projectController.saveProjects(proj);
-                }
-                popup.dispose(); // Close the popup
+
+                String newName = nameField.getText();
+                projectController.editProjectName(project.getId(), newName);
+                popup.dispose();
             }
         });
-
-        // Add the select button to the popup panel
         popupPanel.add(selectButton, BorderLayout.SOUTH);
 
-        // Set the size and show the popup
+        JButton deleteButton = new JButton("❌ Delete");
+        deleteButton.setBounds(45, 210, 200, 40);
+        deleteButton.setFont(new Font("Poppins", Font.BOLD, 17));
+        popupPanel.add(deleteButton);
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                projectController.removeProject(project.getId());
+                popup.dispose();
+                dispose();
+            }
+        });
+        popupPanel.add(selectButton, BorderLayout.SOUTH);
+
         popup.setPreferredSize(new Dimension(300, 300));
         popup.getContentPane().add(popupPanel);
         popup.pack();
@@ -259,9 +250,10 @@ public class ShowProjectInfo extends JFrame implements TableModel {
         for (Map.Entry<Object, User> entry2 : users1.entrySet()) {
             Object key1 = entry2.getKey();
             User value1 = entry2.getValue();
-                userListModel.addElement(value1);
+            userListModel.addElement(value1);
             }
 
+        JList<User> userList = new JList<>(userListModel);
 
         ListCellRenderer<? super User> renderer1 = new DefaultListCellRenderer() {
             @Override
@@ -273,47 +265,23 @@ public class ShowProjectInfo extends JFrame implements TableModel {
             }
         };
 
-        JList<User> userList = new JList<>(userListModel);
         userList.setCellRenderer(renderer1);
-
         popupPanel1.add(new JScrollPane(userList), BorderLayout.CENTER);
 
 
-        JButton selectButton1 = new JButton("Select");
-        selectButton1.addActionListener(new ActionListener() {
+        JButton selectButton = new JButton("Select");
+        selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                User selectedUser1 = userList.getSelectedValue();
-                ArrayList<Integer> posList = new ArrayList<>();
-                ArrayList<Integer> qasList = new ArrayList<>();
-                ArrayList<Integer> devList = new ArrayList<>();
 
-                if (selectedUser1 != null) {
-                    for (User po : userList.getSelectedValuesList()) {
-                        if(po.getRole().equals(Roles.PRODUCT_OWNER))
-                            posList.add(po.getId());
-                    }
-                    for (User qa : userList.getSelectedValuesList()) {
-                        if(qa.getRole().equals(Roles.QUALITY_ASSURANCE)){
-                            qasList.add(qa.getId());
-                        }
-                    }
-                    for (User dev : userList.getSelectedValuesList()) {
-                        if(dev.getRole().equals(Roles.DEVELOPER)){
-                            qasList.add(dev.getId());
-                        }
-                    }
-                    project.setPosList(posList);
-                    project.setQasList(qasList);
-                }
+                User selectedUser1 = userList.getSelectedValue();
+
+                projectController.assign(project.getId(), selectedUser1.getId(), selectedUser1.getRole());
                 popup1.dispose();
             }
         });
+        popupPanel1.add(selectButton, BorderLayout.SOUTH);
 
-
-        popupPanel1.add(selectButton1, BorderLayout.SOUTH);
-
-        // Set the size and show the popup
         popup1.setPreferredSize(new Dimension(300, 300));
         popup1.getContentPane().add(popupPanel1);
         popup1.pack();
@@ -390,4 +358,24 @@ public class ShowProjectInfo extends JFrame implements TableModel {
 
     }
 }
-
+//    ArrayList<Integer> posList = new ArrayList<>();
+//    ArrayList<Integer> qasList = new ArrayList<>();
+//    ArrayList<Integer> devList = new ArrayList<>();
+//                if (selectedUser1 != null) {
+//                    for (User po : userList.getSelectedValuesList()) {
+//                        if(po.getRole().equals(Roles.PRODUCT_OWNER))
+//                            posList.add(po.getId());
+//                    }
+//                    for (User qa : userList.getSelectedValuesList()) {
+//                        if(qa.getRole().equals(Roles.QUALITY_ASSURANCE)){
+//                            qasList.add(qa.getId());
+//                        }
+//                    }
+//                    for (User dev : userList.getSelectedValuesList()) {
+//                        if(dev.getRole().equals(Roles.DEVELOPER)){
+//                            qasList.add(dev.getId());
+//                        }
+//                    }
+//                    project.setPosList(posList);
+//                    project.setQasList(qasList);
+//                }

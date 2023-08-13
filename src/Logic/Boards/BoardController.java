@@ -1,5 +1,7 @@
 package Logic.Boards;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 public class BoardController {
 
     public ArrayList<Board> getAllBoards(){
@@ -45,13 +47,15 @@ public class BoardController {
         }
         return null;
     }
-
     public void removeBoard(int id) {
         ArrayList<Board> boardList = getAllBoards();
+        Iterator<Board> boardIterator = boardList.iterator();
 
-        for (Board board: boardList) {
-            if(board.getId() == id){
-                boardList.remove(id);
+        while (boardIterator.hasNext()) {
+            Board board = boardIterator.next();
+            if (board.getId() == id) {
+                boardIterator.remove(); // Use iterator's remove() method
+                break; // Assuming each board has a unique ID, you can exit loop once found
             }
         }
         BoardRepository.saveBoards(boardList);

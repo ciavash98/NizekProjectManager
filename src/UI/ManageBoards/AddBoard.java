@@ -1,10 +1,5 @@
 package UI.ManageBoards;
-
-import Logic.Boards.Board;
 import Logic.Boards.BoardController;
-import Logic.Boards.BoardRepository;
-import Logic.Projects.Project;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -14,6 +9,11 @@ public class AddBoard extends JFrame {
 
     BoardController boardController = new BoardController();
 
+    JPanel addNewBoardPanel = new JPanel();
+    JLabel boardNameLabel = new JLabel("Board name: ");
+    JTextField boardNameField = new JTextField();
+    JButton createButton = new JButton("+ Create Board");
+
     public AddBoard() {
 
         setLayout(null);
@@ -22,25 +22,21 @@ public class AddBoard extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
-        JPanel addNewBoardPanel = new JPanel();
-
         addNewBoardPanel.setLayout(null);
         addNewBoardPanel.setBounds(0,0,400,400);
         addNewBoardPanel.setBackground(Color.DARK_GRAY);
         add(addNewBoardPanel);
 
-        JLabel boardNameLabel = new JLabel("Board name: ");
-        boardNameLabel.setBounds((addNewBoardPanel.getWidth() / 2) - (100 / 2), 110, 100, 20);
-        boardNameLabel.setFont(new Font("X Roya", Font.BOLD, 17));
+        boardNameLabel.setBounds((addNewBoardPanel.getWidth() / 2) - (120 / 2), 110, 120, 20);
+        boardNameLabel.setFont(new Font("Poppins", Font.BOLD, 17));
         addNewBoardPanel.add(boardNameLabel);
 
-        JTextField boardNameField = new JTextField();
         boardNameField.setBounds((addNewBoardPanel.getWidth() / 2) - (300 / 2), 150, 300, 30);
         boardNameField.setBackground(new Color(255, 255, 255));
-        boardNameField.setFont(new Font("X Traffic", Font.BOLD, 17));
+        boardNameField.setFont(new Font("Poppins", Font.BOLD, 17));
         addNewBoardPanel.add(boardNameField);
 
-        JButton createButton = new JButton("+ Create Board");
+        createButton.setFont(new Font("Poppins", Font.BOLD, 17));
         createButton.setBounds((addNewBoardPanel.getWidth() / 2) - (350 / 2), 270, 350, 50);
         addNewBoardPanel.add(createButton);
         createButton.addActionListener(new ActionListener() {
@@ -51,7 +47,6 @@ public class AddBoard extends JFrame {
                 boardNameField.setText("");
                 setVisible(false);
             }
-
         });
         setVisible(true);
     }

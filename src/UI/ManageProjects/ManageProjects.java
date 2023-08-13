@@ -2,7 +2,6 @@ package UI.ManageProjects;
 import Logic.Projects.Project;
 import Logic.Projects.ProjectController;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -90,7 +89,7 @@ public class ManageProjects extends JPanel implements AddProjectDelegate {
             @Override
             public void actionPerformed(ActionEvent e) {
                 addProject = new AddProject(projectController);
-                function();
+                updatePanel();
             }
         });
         buttonPanel.add(addNewProject);
@@ -101,7 +100,7 @@ public class ManageProjects extends JPanel implements AddProjectDelegate {
         setupView();
     }
 
-    private void function() {
+    private void updatePanel() {
         addProject.delegate = this;
     }
 }

@@ -1,10 +1,10 @@
-0,Salam,Todo,false,Story,asdasd,High,5,2023-08-14
-1,asdasd,Todo,false,Story,asdasd,High,8,2023-08-14
-2,Dalam,Todo,false,Story,asdasd,High,8,2023-08-14
-3,asdasdas,Todo,false,Story,asdasdasf,High,8,2023-08-14
+0,Salam,Done,false,Story,asdasd,High,5,2023-08-14
+1,asdasd,Done,false,Story,asdasd,High,8,2023-08-14
+2,Dalam,In Progress,true,Story,asdasd,High,8,2023-08-14
+3,asdasdas,In Progress,false,Story,asdasdasf,High,8,2023-08-14
 4,sdsdf,Todo,false,Story,asd,High,10,2023-08-14
-5,dsfdgf,Todo,false,Story,asdcfadf,High,10,2023-08-14
-6,asdfgrs,Todo,false,Story,sdfgrsed,High,11,2023-08-14
+5,dsfdgf,In Progress,false,Story,asdcfadf,High,10,2023-08-14
+6,asdfgrs,Done,false,Story,sdfgrsed,High,11,2023-08-14
 7,asdfds,Todo,false,Story,dsfdzxf,High,11,2023-08-14
 8,asdfredsaf,Todo,false,Story,dsfdsafgdfdsfrt,High,11,2023-08-14
 9,ergsdf,Todo,false,Story,sdfgtgrfdsgfd,High,7,2023-08-14

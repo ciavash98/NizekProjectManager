@@ -5,6 +5,7 @@ import Logic.Issues.Issue;
 import Logic.Issues.IssueController;
 import Logic.Issues.IssueStatus;
 import Logic.Projects.Project;
+import Logic.Projects.ProjectController;
 import UI.ManageIssues.AddIssue;
 import UI.ManageIssues.ShowIssueInfo;
 import javax.swing.*;
@@ -30,6 +31,7 @@ public class KanbanBoard extends JFrame {
 
     BoardController boardController = new BoardController();
     IssueController issueController = new IssueController();
+    ProjectController projectController = new ProjectController();
     ArrayList<Issue> issues= new ArrayList<>();
     IssueTableModel customTableModel;
 
@@ -37,8 +39,13 @@ public class KanbanBoard extends JFrame {
 
         super("Kanban Board - " + board.getName());
 
-        for(int issueId : board.getIssuesList()) {
-            issues.add(issueController.getProjectIssue(issueId));
+
+        if (project.getBoardList().get(0) == board.getId()) {
+            issues = issueController.getAllIssues();
+        } else {
+            for(int issueId : board.getIssuesList()) {
+                issues.add(issueController.getProjectIssue(issueId));
+            }
         }
 
         setSize(800, 800);
@@ -172,26 +179,30 @@ public class KanbanBoard extends JFrame {
                         int targetColumn = table.columnAtPoint(dtde.getLocation());
                         int sourceRow = table.getSelectedRow();
                         int sourceColumn = table.getSelectedColumn();
-                        IssueTableModel model = (IssueTableModel) table.getModel();
-                        Issue issue = (Issue) model.getValueAt(sourceRow, sourceColumn);
-                        if (issue != null) {
-                            IssueStatus targetStatus = IssueStatus.values()[targetColumn];
+                        if (sourceColumn != 3) {
+                            IssueTableModel model = (IssueTableModel) table.getModel();
+                            Issue issue = (Issue) model.getValueAt(sourceRow, sourceColumn);
+                            if (issue != null) {
+                                IssueStatus targetStatus = IssueStatus.values()[targetColumn];
 
-                            if (issue.getIssueStatus() == IssueStatus.QA && targetStatus == IssueStatus.IN_PROGRESS) {
-                                issue.setARejected(true);
+                                if (issue.getIssueStatus() == IssueStatus.QA && targetStatus == IssueStatus.IN_PROGRESS) {
+                                    issue.setARejected(true);
+                                }
+
+                                issue.setIssueStatus(targetStatus);
+
+                                if (targetStatus == IssueStatus.DONE) {
+                                    issue.setDate(new Date());
+                                }
+
+                                issueController.saveIssue(issues);
+                                customTableModel.setIssues(issues);
+                                table.revalidate();
+                                dtde.dropComplete(true);
+                                repaint();
+                            } else {
+                                dtde.rejectDrop();
                             }
-
-                            issue.setIssueStatus(targetStatus);
-
-                            if (targetStatus == IssueStatus.DONE) {
-                                issue.setDate(new Date());
-                            }
-
-                            issueController.saveIssue(issues);
-                            customTableModel.setIssues(issues);
-                            table.revalidate();
-                            dtde.dropComplete(true);
-                            repaint();
                         } else {
                             dtde.rejectDrop();
                         }

@@ -4,14 +4,18 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
-
+import java.awt.Color;
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import java.awt.Color;
 
 
 public class DoneIssues extends JFrame{
@@ -65,8 +69,15 @@ public class DoneIssues extends JFrame{
                 true,
                 false
         );
+
         chartPanel = new ChartPanel(chart);
-        chartPanel.setBounds(10, 10, 780, 400);
+        CategoryPlot plot = chart.getCategoryPlot();
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setSeriesPaint(0, Color.RED);
+        renderer.setSeriesPaint(1, Color.BLUE);
+        renderer.setSeriesPaint(2, Color.GREEN);
+
+        chartPanel.setBounds(30, 30, 740, 370);
         chartPanel.setVisible(true);
         chartPanel.setLayout(null);
         mainPanel.add(chartPanel);
@@ -99,7 +110,6 @@ public class DoneIssues extends JFrame{
             User user = entry.getValue();
 
                 listModel.addElement(user.getName());
-
         }
 
 

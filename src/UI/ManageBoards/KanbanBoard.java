@@ -21,7 +21,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -100,11 +99,11 @@ public class KanbanBoard extends JFrame {
             }
         });
 
-        JButton existIssue = new JButton("Delete this board");
-        existIssue.setBounds(110, 710, 250, 50);
-        existIssue.setVisible(true);
-        add(existIssue);
-        existIssue.addActionListener(new ActionListener() {
+        JButton deleteIssue = new JButton("Delete this board");
+        deleteIssue.setBounds(110, 710, 250, 50);
+        deleteIssue.setVisible(true);
+        add(deleteIssue);
+        deleteIssue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int resp = JOptionPane.showConfirmDialog(new JFrame(), "Are you sure to delete " + board.getName() + "?",
@@ -173,6 +172,11 @@ public class KanbanBoard extends JFrame {
                         Issue issue = (Issue) model.getValueAt(sourceRow, sourceColumn);
                         if (issue != null) {
                             IssueStatus targetStatus = IssueStatus.values()[targetColumn];
+
+                            if (issue.getIssueStatus() == IssueStatus.QA && targetStatus == IssueStatus.IN_PROGRESS) {
+                                issue.setARejected(true);
+                            }
+
                             issue.setIssueStatus(targetStatus);
 
                             if (targetStatus == IssueStatus.DONE) {
@@ -292,13 +296,5 @@ public class KanbanBoard extends JFrame {
         public void removeTableModelListener(TableModelListener l) {
 
         }
-
-    }
-    private String formatDate(Date date) {
-        if (date != null) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            return dateFormat.format(date);
-        }
-        return "N/A";
     }
 }

@@ -26,6 +26,7 @@ public class IssueRepository {
         issueList.add(issue.getId()
                 + "," + issue.getTitle()
                 + "," + issue.getIssueStatus()
+                + "," + issue.isARejected()
                 + "," + issue.getType()
                 + "," + issue.getDescription()
                 + "," + issue.getIssuePriority()
@@ -80,16 +81,18 @@ public class IssueRepository {
         ProjectController projectController = new ProjectController();
         for (String data : issuesString) {
             String[] dataStringItem = data.split(",");
-
+            boolean booleanValue = Boolean.parseBoolean(dataStringItem[3]); // Convert boolean to string
+            String booleanAsString = String.valueOf(booleanValue);
             Issue issue = new Issue(Integer.parseInt(dataStringItem[0]),
                     dataStringItem[1],
                     IssueStatus.findByName(dataStringItem[2]),
-                    IssueType.findByName(dataStringItem[3]),
-                    dataStringItem[4],
-                    IssuePriority.findByName(dataStringItem[5]),
-                    userController.getAllUsers(UserInitKeyBy.ID).get(Integer.parseInt(dataStringItem[6])),
-                    projectController.findById(Integer.parseInt(dataStringItem[7])));
-            issue.setDate(parseDate(dataStringItem[8]));
+                    booleanValue,
+                    IssueType.findByName(dataStringItem[4]),
+                    dataStringItem[5],
+                    IssuePriority.findByName(dataStringItem[6]),
+                    userController.getAllUsers(UserInitKeyBy.ID).get(Integer.parseInt(dataStringItem[7])),
+                    projectController.findById(Integer.parseInt(dataStringItem[8])));
+            issue.setDate(parseDate(dataStringItem[9]));
             issues.add(issue);
         }
         return issues;
@@ -121,6 +124,7 @@ public class IssueRepository {
             content.append(issue.getId())
                     .append(",").append(issue.getTitle())
                     .append(",").append(issue.getIssueStatus())
+                    .append(",").append(issue.isARejected())
                     .append(",").append(issue.getType())
                     .append(",").append(issue.getDescription())
                     .append(",").append(issue.getIssuePriority())

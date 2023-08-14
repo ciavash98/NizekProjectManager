@@ -43,7 +43,6 @@ public class ReportController {
                 userIssues.add(issue);
             }
         }
-        System.out.println(userIssues);
         return userIssues.size();
     }
 }

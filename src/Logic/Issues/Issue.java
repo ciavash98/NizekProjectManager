@@ -24,10 +24,9 @@ public class Issue {
     ArrayList<String> done;
     User assignedUser;
     Date date;
+    boolean isARejected;
 
-    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-
-    public Issue(int id, String title, IssueStatus status, IssueType type, String description, IssuePriority issuePriority, User assignedUser, Project project) {
+    public Issue(int id, String title, IssueStatus status,boolean isARejected, IssueType type, String description, IssuePriority issuePriority, User assignedUser, Project project) {
         this.id = id;
         this.title = title;
         this.issueStatus = status;
@@ -153,6 +152,13 @@ public class Issue {
     }
 
 
+    public boolean isARejected() {
+        return isARejected;
+    }
+
+    public void setARejected(boolean ARejected) {
+        isARejected = ARejected;
+    }
     @Override
     public String toString() {
         return title;

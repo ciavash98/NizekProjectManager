@@ -1,7 +1,4 @@
 package Logic.Issues;
-
-import Logic.Users.Roles;
-
 public enum IssueStatus {
 
     TODO("Todo"),
@@ -14,7 +11,6 @@ public enum IssueStatus {
     IssueStatus(String status) {
         this.status = status;
     }
-
 
     public static IssueStatus findByName(String name) {
         for (IssueStatus item : values()) {

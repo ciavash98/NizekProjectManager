@@ -26,7 +26,7 @@ public class Issue {
     Date date;
     boolean isARejected;
 
-    public Issue(int id, String title, IssueStatus status,boolean isARejected, IssueType type, String description, IssuePriority issuePriority, User assignedUser, Project project) {
+    public Issue(int id, String title, IssueStatus status, IssueType type, String description, IssuePriority issuePriority, User assignedUser, Project project) {
         this.id = id;
         this.title = title;
         this.issueStatus = status;
@@ -36,6 +36,7 @@ public class Issue {
         this.project = project;
         this.assignedUser = assignedUser;
         this.date = new Date();
+        this.isARejected = false;
     }
 
     public Date getDate() {

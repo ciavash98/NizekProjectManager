@@ -81,18 +81,16 @@ public class IssueRepository {
         ProjectController projectController = new ProjectController();
         for (String data : issuesString) {
             String[] dataStringItem = data.split(",");
-            boolean booleanValue = Boolean.parseBoolean(dataStringItem[3]); // Convert boolean to string
-            String booleanAsString = String.valueOf(booleanValue);
             Issue issue = new Issue(Integer.parseInt(dataStringItem[0]),
                     dataStringItem[1],
                     IssueStatus.findByName(dataStringItem[2]),
-                    booleanValue,
                     IssueType.findByName(dataStringItem[4]),
                     dataStringItem[5],
                     IssuePriority.findByName(dataStringItem[6]),
                     userController.getAllUsers(UserInitKeyBy.ID).get(Integer.parseInt(dataStringItem[7])),
                     projectController.findById(Integer.parseInt(dataStringItem[8])));
             issue.setDate(parseDate(dataStringItem[9]));
+            issue.setARejected(Boolean.parseBoolean(dataStringItem[3]));
             issues.add(issue);
         }
         return issues;

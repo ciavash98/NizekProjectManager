@@ -49,7 +49,7 @@ public class IssueController {
     public void addIssue(String title, IssueType type, String description, IssuePriority priority, Project project, User user){
         int id = getAllIssues().size();
         IssueStatus defaultStatus = IssueStatus.TODO;
-        Issue issue = new Issue(id, title, defaultStatus,false, type, description, priority, user, project);
+        Issue issue = new Issue(id, title, defaultStatus, type, description, priority, user, project);
         issue.setAssignedUser(user);
         IssueRepository.addIssue(issue);
     }

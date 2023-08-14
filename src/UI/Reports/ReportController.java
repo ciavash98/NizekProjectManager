@@ -1,12 +1,10 @@
 package UI.Reports;
-
 import Logic.Issues.Issue;
 import Logic.Issues.IssueRepository;
 import Logic.Issues.IssueStatus;
 import Logic.Users.Roles;
 import Logic.Users.User;
 import Logic.Users.UserController;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,7 +32,6 @@ public class ReportController {
     }
 
     public int userDoneIssues(int userId){
-        System.out.println(userId);
         ArrayList<Issue> doneIssue = findIssueByStatus(IssueStatus.DONE);
         ArrayList<Issue> userIssues = new ArrayList<>();
 
@@ -44,5 +41,19 @@ public class ReportController {
             }
         }
         return userIssues.size();
+    }
+
+    public int userRejectedIssues(int userId){
+        ArrayList<Issue> issues = getAllIssues();
+        ArrayList<Issue> rejectedIssues = new ArrayList<>();
+        for (Issue issue: issues) {
+            if(issue.isARejected()){
+                if (issue.getId() == userId) {
+                    rejectedIssues.add(issue);
+                }
+            }
+        }
+        System.out.println(rejectedIssues);
+        return rejectedIssues.size();
     }
 }

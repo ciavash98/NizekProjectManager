@@ -14,44 +14,8 @@ public class ManageReports extends JPanel {
         setBounds(248, 80, 820, 660);
         setLayout(null);
         setVisible(true);
+        new DoneIssues(reportController);
 
-        JButton doneIssuesButton = new JButton("Done Issues");
-        doneIssuesButton.setBounds(28,28,170,170);
-        doneIssuesButton.setLayout(null);
-        add(doneIssuesButton);
-        doneIssuesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new DoneIssues(reportController);
-            }
-        });
-
-        JButton rejectedIssuesButton = new JButton("Rejected Issues");
-        rejectedIssuesButton.setBounds(226,28,170,170);
-        rejectedIssuesButton.setLayout(null);
-        add(rejectedIssuesButton);
-        rejectedIssuesButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new RejectedIssues();
-            }
-        });
-
-        JButton compareButton = new JButton("Compare Users");
-        compareButton.setBounds(424,28,170,170);
-        compareButton.setLayout(null);
-        add(compareButton);
-        compareButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new CompareUsers();
-            }
-        });
-
-        JButton button4 = new JButton();
-        button4.setBounds(622,28,170,170);
-        button4.setLayout(null);
-        add(button4);
     }
 
     @Override

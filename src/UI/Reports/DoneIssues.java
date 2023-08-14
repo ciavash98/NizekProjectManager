@@ -11,17 +11,11 @@ import javax.swing.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import java.awt.Color;
-
 
 public class DoneIssues extends JFrame{
 
     ReportController reportController = new ReportController();
-
     JPanel mainPanel = new JPanel();
     JPanel listPanel = new JPanel();
     DefaultListModel<String> listModel = new DefaultListModel<>();
@@ -49,18 +43,20 @@ public class DoneIssues extends JFrame{
                 dataset.clear();
                 for (User user : selectedUsers) {
                     int countOfDoneIssues = reportController.userDoneIssues(user.getId());
+                    int countOfRejectedIssues = reportController.userRejectedIssues(user.getId());
                     dataset.addValue(countOfDoneIssues, "Done Issues", user.getName());
+                    dataset.addValue(countOfRejectedIssues,"Rejected Issues",user.getName());
                     if (selectedUsers.size() == 1) {
-                        chart.setTitle("Displaying Done Issues for " + user.getName());
+                        chart.setTitle("Reports for " + user.getName());
                     } else {
-                        chart.setTitle("Displaying Done Issues for " + selectedUsers.size() + " Users");
+                        chart.setTitle("Reports for " + selectedUsers.size() + " Users");
                     }
                 }
             }
         });
 
         chart = ChartFactory.createBarChart(
-                "Done Issues per User",
+                "Please choose a developer",
                 "User",
                 "Done Issues Count",
                 dataset,
@@ -73,10 +69,8 @@ public class DoneIssues extends JFrame{
         chartPanel = new ChartPanel(chart);
         CategoryPlot plot = chart.getCategoryPlot();
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-        renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesPaint(1, Color.BLUE);
-        renderer.setSeriesPaint(2, Color.GREEN);
-
+        renderer.setSeriesPaint(0, Color.GRAY);
+        renderer.setSeriesPaint(1, Color.RED);
         chartPanel.setBounds(30, 30, 740, 370);
         chartPanel.setVisible(true);
         chartPanel.setLayout(null);

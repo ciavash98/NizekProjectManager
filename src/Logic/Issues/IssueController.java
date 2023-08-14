@@ -1,18 +1,52 @@
 package Logic.Issues;
 import Logic.Projects.Project;
 import Logic.Users.User;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class IssueController {
 
     public ArrayList<Issue> getAllIssues(){
-        return IssueRepository.readIssue();
+        ArrayList<Issue> issues = IssueRepository.readIssue();
+        ArrayList<Issue> filteredIssues = new ArrayList<>();
+
+        for (Issue issue : issues) {
+            if (issue.getIssueStatus() == IssueStatus.DONE) {
+                if (!isOutDate(issue.getDate())) {
+                    filteredIssues.add(issue);
+                }
+            } else {
+                filteredIssues.add(issue);
+            }
+        }
+
+        return filteredIssues;
     }
 
-    public void addIssue(String title,IssueType type, String description, IssuePriority priority, Project project, User user){
+    private boolean isOutDate(Date givenDate) {
+        Date currentDate = new Date();
+
+        long differenceInMillis = currentDate.getTime() - givenDate.getTime();
+
+        // Convert milliseconds to days
+        int daysDifference = (int) (differenceInMillis / (24 * 60 * 60 * 1000));
+
+//        Convert milliseconds to minutes
+//        long minutesDifference = timeDifferenceInMillis / (60 * 1000);
+//        if (minutesDifference >= 1) {
+//            return true;
+//        } else {
+//            return false;
+//        }
+
+        if (daysDifference >= 30) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void addIssue(String title, IssueType type, String description, IssuePriority priority, Project project, User user){
         int id = getAllIssues().size();
         IssueStatus defaultStatus = IssueStatus.TODO;
         Issue issue = new Issue(id, title, defaultStatus, type, description, priority, user, project);
@@ -74,9 +108,6 @@ public class IssueController {
         }
     }
 
-    public void saveDoneIssues(){
+    // Report
 
-
-
-    }
 }

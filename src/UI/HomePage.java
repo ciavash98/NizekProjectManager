@@ -4,7 +4,7 @@ import UI.Components.SideBarView;
 import UI.Components.ToolBarView;
 import UI.ManageProjects.ManageProjects;
 import UI.ManageUser.ManageUsers;
-import UI.Reports.Reports;
+import UI.Reports.ManageReports;
 import UI.Setting.Setting;
 import Logic.Users.UserController;
 import javax.swing.*;
@@ -74,7 +74,7 @@ public class HomePage extends JFrame {
         sideBar.addManageReportsButtonAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Reports reports = new Reports();
+                ManageReports reports = new ManageReports();
                 if (currentShowingPanel != null) {
                     currentShowingPanel.setVisible(false);
                     new ToolBarView("Reports");

@@ -16,7 +16,6 @@ public class Issue {
     String description;
     IssuePriority issuePriority;
     IssueType type;
-    Project project;
     Board board;
     ArrayList<String> todo;
     ArrayList<String> inProgress;
@@ -26,14 +25,13 @@ public class Issue {
     Date date;
     boolean isARejected;
 
-    public Issue(int id, String title, IssueStatus status, IssueType type, String description, IssuePriority issuePriority, User assignedUser, Project project) {
+    public Issue(int id, String title, IssueStatus status, IssueType type, String description, IssuePriority issuePriority, User assignedUser) {
         this.id = id;
         this.title = title;
         this.issueStatus = status;
         this.type = type;
         this.description = description;
         this.issuePriority = issuePriority;
-        this.project = project;
         this.assignedUser = assignedUser;
         this.date = new Date();
         this.isARejected = false;
@@ -61,14 +59,6 @@ public class Issue {
 
     public void setType(IssueType type) {
         this.type = type;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
     }
 
     public Board getBoard() {

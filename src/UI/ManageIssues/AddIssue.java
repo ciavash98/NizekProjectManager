@@ -1,5 +1,6 @@
 package UI.ManageIssues;
 import Logic.Boards.Board;
+import Logic.Boards.BoardController;
 import Logic.Issues.*;
 import Logic.Projects.Project;
 import Logic.Users.Roles;
@@ -15,8 +16,10 @@ public class AddIssue extends JFrame {
     IssuePriority issuePriority;
     UserController userController = new UserController();
     Issue issue;
-    public AddIssue(Project project, Board board) {
+    BoardController boardController;
 
+    public AddIssue(BoardController boardController, Board board) {
+        this.boardController = boardController;
         JPanel mainPanel = new JPanel();
         setVisible(true);
         setSize(500, 500);
@@ -89,7 +92,8 @@ public class AddIssue extends JFrame {
                 IssuePriority priority = (IssuePriority) priorityComboBox.getSelectedItem();
                 User user = (User) devComboBox.getSelectedItem();
                 IssueType type = (IssueType) typeComboBox.getSelectedItem();
-                issueController.addIssue(title,type, description, priority,project, user);
+                int issueId = issueController.addIssue(title, type, description, priority, user);
+                boardController.assignIssue(board.getId(), issueId);
                 setVisible(false);
             }
         });

@@ -20,6 +20,18 @@ public class BoardController {
         BoardRepository.addBoard(board);
         return boardId;
     }
+
+    public void assignIssue(int boardId, int issueId) {
+        ArrayList<Board> boards = getAllBoards();
+
+        for (Board board : boards) {
+            if (board.getId() == boardId) {
+                board.getIssuesList().add(issueId);
+            }
+        }
+
+        BoardRepository.saveBoards(boards);
+    }
 //
 //    public void renameBoard(String name){
 //        ArrayList<Board> boards = getAllBoards();

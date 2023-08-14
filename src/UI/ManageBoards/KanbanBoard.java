@@ -30,13 +30,17 @@ public class KanbanBoard extends JFrame {
 
     BoardController boardController = new BoardController();
     IssueController issueController = new IssueController();
-    ArrayList<Issue> issues;
+    ArrayList<Issue> issues= new ArrayList<>();
     IssueTableModel customTableModel;
 
     public KanbanBoard(Project project, Board board) {
 
         super("Kanban Board - " + board.getName());
-        issues = issueController.getAllIssues();
+
+        for(int issueId : board.getIssuesList()) {
+            issues.add(issueController.getProjectIssue(issueId));
+        }
+
         setSize(800, 800);
         setLayout(null);
         setBounds(0, 0, 800, 800);
@@ -95,7 +99,7 @@ public class KanbanBoard extends JFrame {
         addIssue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddIssue(project, board);
+                new AddIssue(boardController, board);
             }
         });
 

@@ -1,4 +1,5 @@
 package Logic.Issues;
+import Logic.Boards.Board;
 import Logic.Projects.Project;
 import Logic.Users.User;
 import java.util.ArrayList;
@@ -46,12 +47,13 @@ public class IssueController {
         }
     }
 
-    public void addIssue(String title, IssueType type, String description, IssuePriority priority, Project project, User user){
+    public int addIssue(String title, IssueType type, String description, IssuePriority priority, User user){
         int id = getAllIssues().size();
         IssueStatus defaultStatus = IssueStatus.TODO;
-        Issue issue = new Issue(id, title, defaultStatus, type, description, priority, user, project);
+        Issue issue = new Issue(id, title, defaultStatus, type, description, priority, user);
         issue.setAssignedUser(user);
         IssueRepository.addIssue(issue);
+        return id;
     }
 
     public void assign(Issue issue, User developer){
@@ -92,6 +94,17 @@ public class IssueController {
             }
         }
         return -1;
+    }
+
+    public Issue getProjectIssue(int issueId) {
+        ArrayList<Issue> issues = getAllIssues();
+        for(Issue issue : issues) {
+            if (issue.getId() == issueId) {
+                return issue;
+            }
+        }
+
+        return null;
     }
 
     public void saveIssue(ArrayList<Issue> issue){

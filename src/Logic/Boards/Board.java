@@ -33,6 +33,14 @@ public class Board {
         this.name = name;
     }
 
+    public ArrayList<Integer> getIssuesList() {
+        return issuesList;
+    }
+
+    public void setIssuesList(ArrayList<Integer> issuesList) {
+        this.issuesList = issuesList;
+    }
+
     @Override
     public String toString() {
         return

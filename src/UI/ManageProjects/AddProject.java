@@ -77,6 +77,7 @@ public class AddProject extends JFrame {
                     projectController.addProject(id, name);
                     addProjectFrame.setVisible(false);
                     delegate.onProjectAdded();
+                    projectNameField.setText("");
                 } else {
                     projectNameField.setText("Please enter a project name");
                 }

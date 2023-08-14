@@ -31,7 +31,6 @@ public class IssueRepository {
                 + "," + issue.getDescription()
                 + "," + issue.getIssuePriority()
                 + "," + issue.getAssignedUser().getId()
-                + "," + issue.getProject().getId()
                 + "," + dateFormatter.format(issue.getDate())
         );
 
@@ -87,9 +86,8 @@ public class IssueRepository {
                     IssueType.findByName(dataStringItem[4]),
                     dataStringItem[5],
                     IssuePriority.findByName(dataStringItem[6]),
-                    userController.getAllUsers(UserInitKeyBy.ID).get(Integer.parseInt(dataStringItem[7])),
-                    projectController.findById(Integer.parseInt(dataStringItem[8])));
-            issue.setDate(parseDate(dataStringItem[9]));
+                    userController.getAllUsers(UserInitKeyBy.ID).get(Integer.parseInt(dataStringItem[7])));
+            issue.setDate(parseDate(dataStringItem[8]));
             issue.setARejected(Boolean.parseBoolean(dataStringItem[3]));
             issues.add(issue);
         }
@@ -127,7 +125,6 @@ public class IssueRepository {
                     .append(",").append(issue.getDescription())
                     .append(",").append(issue.getIssuePriority())
                     .append(",").append(issue.getAssignedUser().getId())
-                    .append(",").append(issue.getProject().getId())
                     .append(",").append(dateFormatter.format(issue.getDate()));
 
             content.append("\n");

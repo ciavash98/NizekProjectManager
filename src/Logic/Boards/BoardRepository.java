@@ -11,7 +11,7 @@ public class BoardRepository {
 
     public static void addBoard(Board board) {
         ArrayList<String> boardList = readBoardFile("Boards.csv");
-        boardList.add(board.getId() + (",") + board.getName());
+        boardList.add(board.getId() + "," + board.getName()  + "," + listToString(board.issuesList));
         StringBuilder content = new StringBuilder();
 
         for (String string : boardList) {
@@ -26,11 +26,44 @@ public class BoardRepository {
         }
     }
 
+    private static ArrayList<Integer> stringToList(String str) {
+        ArrayList<Integer> list = new ArrayList<>();
+
+        if (!str.equals("null")) {
+            String digits = str.substring(1, str.length() - 1);
+            String[] strArr = digits.split("\\|");
+            for (String s : strArr) {
+                list.add(Integer.parseInt(s));
+            }
+        }
+
+        return list;
+    }
+
+    private static String listToString(ArrayList<Integer> list) {
+        if (list != null) {
+            if (list.size() != 0) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("[");
+                for (int i = 0; i < list.size(); i++) {
+                    sb.append(list.get(i));
+                    if (i < list.size() - 1) {
+                        sb.append("|");
+                    }
+                }
+                sb.append("]");
+                return sb.toString();
+            }
+        }
+        return "null";
+    }
+
+
     public static void saveBoards(ArrayList<Board> boards){
         StringBuilder content = new StringBuilder();
 
         for (Board board : boards) {
-            content.append(board.getId()).append(",").append(board.getName());
+            content.append(board.getId()).append(",").append(board.getName()).append(",").append(listToString(board.issuesList));
             content.append("\n");
         }
 
@@ -76,6 +109,7 @@ public class BoardRepository {
                 Board board = new Board(Integer.parseInt(dataStringItem[0]),
                         dataStringItem[1]
                 );
+                board.setIssuesList(stringToList(dataStringItem[2]));
                 boards.add(board);
             }
          return boards;

@@ -53,7 +53,6 @@ public class ReportController {
                 }
             }
         }
-        System.out.println(rejectedIssues);
         return rejectedIssues.size();
     }
 }

@@ -8,7 +8,7 @@ import java.awt.geom.Path2D;
 public class ManageReports extends JPanel {
 
     private final int cornerRadius = 60;
-
+    ReportController reportController = new ReportController();
     public ManageReports(){
 
         setBounds(248, 80, 820, 660);
@@ -22,7 +22,7 @@ public class ManageReports extends JPanel {
         doneIssuesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new DoneIssues();
+                new DoneIssues(reportController);
             }
         });
 

@@ -22,7 +22,7 @@ public class Main {
                     new SignupPage();
                 } else {
 //                    new LoginPage();
-                    User user = new User(1,"Ciavash", "Ciavash@yahoo.com", "123", Roles.SUPER_ADMIN);
+                    User user = new User(1,"Ciavash", "Ciavash@yahoo.com", "123", Roles.PRODUCT_OWNER);
 
                     userController.user = user;
                     try {

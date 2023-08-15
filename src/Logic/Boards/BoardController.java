@@ -1,4 +1,6 @@
 package Logic.Boards;
+import Logic.Issues.Issue;
+import Logic.Issues.IssueController;
 import Logic.Projects.Project;
 import Logic.Projects.ProjectController;
 import java.util.ArrayList;
@@ -32,18 +34,6 @@ public class BoardController {
 
         BoardRepository.saveBoards(boards);
     }
-//
-//    public void renameBoard(String name){
-//        ArrayList<Board> boards = getAllBoards();
-//        for (Board b : boards) {
-//            if(b.getName().equals(name)){
-//                boards.remove(b);
-//                Board board = new Board(b.getId(),name);
-//                boards.add(board);
-//            }
-//        }
-//        BoardRepository.saveBoards(boards);
-//    }
 
     public Board getBoardById(int id) {
         ArrayList<Board> boards = getAllBoards();
@@ -71,6 +61,7 @@ public class BoardController {
 
     public void removeSingleBoard(int boardId) {
         ProjectController projectController = new ProjectController();
+        IssueController issueController = new IssueController();
         ArrayList<Project> projects = projectController.getAllProjects();
         ArrayList<Board> boards = getAllBoards();
         for (Project project: projects) {
@@ -80,9 +71,30 @@ public class BoardController {
             }
         }
 
+
+
         for (int i = 0; i < boards.size(); i++) {
             if(boards.get(i).getId() == boardId){
+                ArrayList<Issue> allIssues = issueController.getAllIssues();
+                ArrayList<Integer> issues = boards.get(i).getIssuesList();
+                allIssues.removeIf(issue -> issues.contains(issue.getId()));
+                issueController.saveIssue(allIssues);
                 boards.remove(boards.get(i));
+            }
+        }
+        BoardRepository.saveBoards(boards);
+    }
+
+    public void editBoardName(int id, String name) {
+        ArrayList<Board> boards = getAllBoards();
+
+        for (int i = 0; i < boards.size(); i++) {
+            Board b = boards.get(i);
+
+            if(b.getId() == id){
+                Board editedBoard = new Board(id, name);
+                editedBoard.setIssuesList(b.getIssuesList());
+                boards.set(i, editedBoard);
             }
         }
         BoardRepository.saveBoards(boards);

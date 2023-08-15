@@ -85,12 +85,13 @@ public class SideBarView extends JPanel {
         setVisible(true);
 
         JLabel roleOfUser = new JLabel(userRole);
-        roleOfUser.setBounds((getWidth() / 2) - (130 / 2), 100, 130, 20);
+        roleOfUser.setBounds((getWidth() - roleOfUser.getPreferredSize().width) / 3, 100, 160, 20);
         roleOfUser.setFont(new Font("Poppins", Font.BOLD, 18));
         add(roleOfUser);
 
         JLabel nameOfUser = new JLabel(userName);
-        nameOfUser.setBounds((getWidth() / 2) - (100 / 2) + 15, 130, 100, 20);
+        nameOfUser.setBounds((getWidth() - nameOfUser.getPreferredSize().width) / 3, 130, 140, 20);
+        nameOfUser.setAlignmentX(CENTER_ALIGNMENT);
         nameOfUser.setFont(new Font("Poppins", Font.BOLD, 15));
         add(nameOfUser);
 

@@ -110,25 +110,14 @@ public class KanbanBoard extends JFrame {
             }
         });
 
-        JButton deleteIssue = new JButton("Delete this board");
+        JButton deleteIssue = new JButton("Edit board");
         deleteIssue.setBounds(110, 710, 250, 50);
         deleteIssue.setVisible(true);
         add(deleteIssue);
         deleteIssue.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int resp = JOptionPane.showConfirmDialog(new JFrame(), "Are you sure to delete " + board.getName() + "?",
-                        "Delete?", JOptionPane.YES_NO_OPTION);
-
-                if (resp == JOptionPane.YES_OPTION) {
-
-                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                    boardController.removeSingleBoard(board.getId());
-                    setVisible(false);
-                } else {
-                    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                }
-
+                new EditBoard(board);
             }
         });
 
